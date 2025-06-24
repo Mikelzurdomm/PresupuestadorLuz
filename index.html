@@ -1,238 +1,55 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>2.0TD Presupuestador</title>
-  <style>
-    body {
-      background: #eaf4ec;
-      font-family: 'Segoe UI', sans-serif;
-      padding: 20px;
-    }
-    .panel {
-      max-width: 900px;
-      margin: auto;
-      background: white;
-      border: 3px solid #2a6e36;
-      padding: 20px;
-    }
-    .header {
-      background: #2a6e36;
-      color: white;
-      text-align: center;
-      padding: 10px;
-      font-size: 32px;
-      font-weight: bold;
-    }
-    .contenido {
-      display: flex;
-      margin-top: 20px;
-      justify-content: space-between;
-    }
-    .tabla-datos {
-      border-collapse: collapse;
-      width: 50%;
-    }
-    .tabla-datos td, .tabla-datos th {
-      border: 1px solid #999;
-      padding: 8px;
-    }
-    .header-oferta {
-      background: #a5d6a7;
-      font-weight: bold;
-      text-transform: uppercase;
-    }
-    .cell-oferta {
-      background: #ffccbc;
-    }
-    .label-grey {
-      background: #e0e0e0;
-      font-weight: bold;
-    }
-    .label-green {
-      background: #a5d6a7;
-      font-weight: bold;
-    }
-    .cell-lightgreen {
-      background: #e8f5e9;
-    }
-    input, select {
-      width: 100%;
-      box-sizing: border-box;
-      padding: 4px;
-      border: 1px solid #666;
-    }
-    .total-section {
-      width: 45%;
-      text-align: center;
-    }
-    .titulo-total {
-      background: #ffccbc;
-      color: #000;
-      font-weight: bold;
-      padding: 10px;
-      font-size: 18px;
-    }
-    .resultado {
-      margin-top: 10px;
-      background: #d4f7d4;
-      padding: 12px;
-      text-align: center;
-      border: 2px solid #2a6e36;
-      transition: background-color 0.5s ease, transform 0.4s ease;
-      animation: entrada 0.6s ease-in-out;
-      font-size: 16px;
-    }
-    @keyframes entrada {
-      0% {
-        transform: scale(0.95);
-        opacity: 0;
-      }
-      100% {
-        transform: scale(1);
-        opacity: 1;
-      }
-    }
-    .ahorro-verde {
-      color: #388e3c;
-      transition: color 0.4s ease;
-      font-size: 18px;
-      font-weight: bold;
-    }
-    .ahorro-rojo {
-      color: #d32f2f;
-      transition: color 0.4s ease;
-      font-size: 18px;
-      font-weight: bold;
-    }
-    .barras-container {
-      margin-top: 30px;
-      text-align: center;
-    }
-    .barras {
-      display: flex;
-      justify-content: space-around;
-      align-items: flex-end;
-      height: 150px;
-      background: #f9f9f9;
-      border: 1px solid #ccc;
-      margin: 0 auto;
-      max-width: 250px;
-    }
-    .barra {
-      width: 60px;
-      transition: height 0.6s ease;
-    }
-    .barra-actual {
-      background-color: #ffcccb; /* pale red */
-    }
-    .barra-nueva {
-      background-color: #4caf50; /* green */
-    }
-    .label-barras {
-      display: flex;
-      justify-content: space-around;
-      margin-top: 5px;
-    }
-    .label-barras span {
-      width: 60px;
-      text-align: center;
-      font-size: 14px;
-      color: #2a6e36;
-    }
-  
-/* Enlarge Factura actual value in table */
-.tabla-datos td.factura-valor {
-  font-size: 24px;
-  font-weight: bold;
-}
-
-
-  /* Estilos para resultado reorganizado */
-  .resultado-principal {
-    text-align: left;
-    padding: 10px;
-  }
-  .resultado-principal strong {
-    display: inline-block;
-    width: 120px;
-    font-size: 18px;
-  }
-  .factura-actual-value, .factura-nueva-value {
-    font-weight: bold;
-    font-size: 20px;
-  }
-  .promo-box {
-    margin-top: 15px;
-    background-color: #ffecb3;
-    border: 2px solid #ffb300;
-    padding: 10px;
-    text-align: center;
-    font-size: 16px;
-  }
-</style>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Presupuestador Eléctrico</title>
+  <link rel="stylesheet" href="styles.css"/>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
 </head>
 <body>
-  <div class="panel">
-    <div class="header">2.0TD</div>
-    <div class="contenido">
-      <table class="tabla-datos">
-        <tr>
-          <th class="header-oferta">OFERTA</th>
-          <td class="cell-oferta"><select id="oferta_20td"></select></td>
-        </tr>
-        <tr>
-          <td class="label-grey">Potencia</td>
-          <td><input id="potencia20" type="number" step="0.01"></td>
-        </tr>
-        <tr>
-          <td class="label-green">Días</td>
-          <td class="cell-lightgreen"><input id="dias20" type="number"></td>
-        </tr>
-        <tr>
-          <td class="label-grey">Consumo P1</td>
-          <td><input id="consumo1_20" type="number"></td>
-        </tr>
-        <tr>
-          <td class="label-green">Consumo P2</td>
-          <td class="cell-lightgreen"><input id="consumo2_20" type="number"></td>
-        </tr>
-        <tr>
-          <td class="label-grey">Consumo P3</td>
-          <td><input id="consumo3_20" type="number"></td>
-        </tr>
-        <tr>
-          <td class="label-green">Alquiler de equipos</td>
-          <td class="cell-lightgreen"><input id="alquiler20" type="number"></td>
-        </tr>
-        <tr>
-          <td class="label-grey">Bono social</td>
-          <td><input id="bono20" type="number" step="0.000001"></td>
-        </tr>
-        <tr>
-          <td class="label-green">IVA</td>
-          <td class="cell-lightgreen"><input id="iva20" type="number" value="21"></td>
-        </tr>
-        <tr>
-          <td class="label-grey">Factura actual</td>
-          <td><input id="factura20" type="number"></td>
-        </tr>
-      </table>
-      <div class="total-section">
-        <div class="titulo-total">TOTAL</div>
-        <div class="resultado" id="resultado_20td"></div>
+  <div class="container py-4">
+    <header class="mb-4 text-center">
+      <img src="logo.png" alt="Logo" class="mb-2" style="max-height:80px;" />
+      <h1>Presupuestador de Tarifas Eléctricas</h1>
+    </header>
+    <form id="formDatos" class="row g-3 mb-4">
+      <div class="col-md-6">
+        <label for="clienteNombre" class="form-label">Nombre Cliente</label>
+        <input type="text" class="form-control" id="clienteNombre" required/>
       </div>
+      <div class="col-md-6">
+        <label for="dias" class="form-label">Días</label>
+        <input type="number" class="form-control" id="dias" value="30" required/>
+      </div>
+      <div class="col-md-6">
+        <label for="potencia" class="form-label">Potencia (kW)</label>
+        <input type="number" step="0.01" class="form-control" id="potencia" required/>
+      </div>
+      <div class="col-md-6">
+        <label for="facturaActual" class="form-label">Factura Actual (€)</label>
+        <input type="number" step="0.01" class="form-control" id="facturaActual" required/>
+      </div>
+      <div class="col-md-6">
+        <label for="energia" class="form-label">Consumo Energía (kWh)</label>
+        <input type="number" step="0.01" class="form-control" id="energia" required/>
+      </div>
+    </form>
+    <div class="mb-4">
+      <h3>Ofertas Disponibles</h3>
+      <div id="ofertas-container" class="row gy-2"></div>
     </div>
-    <div class="barras-container">
-      <div class="barras">
-        <div id="barra-actual" class="barra barra-actual" style="height: 0%;"></div>
-        <div id="barra-nueva" class="barra barra-nueva" style="height: 0%;"></div>
-      </div>
-      <div class="label-barras">
-        <span>Actual</span><span>Nueva</span>
-      </div>
+    <div class="mb-4">
+      <button id="btnCalcular" class="btn btn-primary">Calcular y Mostrar Gráfico</button>
+      <button id="btnPDF" class="btn btn-success">Generar PDF</button>
+      <button id="btnGuardar" class="btn btn-secondary">Guardar Presupuesto</button>
+      <button id="btnVerGuardados" class="btn btn-info">Ver Guardados</button>
     </div>
+    <canvas id="chart" height="100"></canvas>
   </div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="main.js"></script>
 </body>
 </html>
